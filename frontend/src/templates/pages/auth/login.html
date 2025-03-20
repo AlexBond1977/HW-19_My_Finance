@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title id="title">Страница авторизации</title>
+    <link rel="stylesheet" href="../../../styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../styles/adaptive.css">
+    <link rel="icon" type="image/x-icon" href="../../../static/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="login-box d-flex flex-column justify-content-center align-items-center h-100 w-100 m-auto position-absolute">
+
+    <div class="logo mb-5">
+        <a href="javascript:void(0)">
+            <img src="../../../static/images/logo.png" alt="Logo">
+        </a>
+    </div>
+
+    <div class="error invalid-feedback text-center mb-3" id="common-error">Неправильный email или пароль</div>
+
+    <form class="form-auth mx-auto px-0 needs-validation" novalidate>
+        <h1 class="h1 text-primary-emphasis fw-bold text-center mb-4">Вход</h1>
+        <div>
+            <div class="input-group-append">
+                <img class="position-absolute" src="../../../static/images/icon-email.png" alt="Email icon">
+            </div>
+            <input type="email" class="form-control py-2 ps-5" id="email" placeholder="Электронная почта">
+            <span id="email-error" class="error invalid-feedback">Введите корректный email</span>
+        </div>
+
+        <div class="mt-2">
+            <div class="input-group-append">
+                <img class="position-absolute" src="../../../static/images/icon-password.png" alt="Password icon">
+            </div>
+            <input type="password" class="form-control py-2 ps-5" id="password" placeholder="Пароль">
+            <span id="password-error" class="error invalid-feedback">Заполните пароль</span>
+        </div>
+        <div class="form-check text-start mt-2 mb-4">
+            <input class="form-check-input" type="checkbox" value="remember-me" id="remember-me">
+            <label class="form-check-label" for="remember-me">
+                Запомнить меня
+            </label>
+        </div>
+        <button class="btn btn-primary w-100 fw-bold mb-2" type="button" id="process-button">Войти</button>
+        <p class="mb-0 text-dark">Ещё нет аккаунта?<a class="ms-2" href="./sign-up.html">Пройдите регистрацию</a></p>
+    </form>
+</div>
+
+</body>
+</html>

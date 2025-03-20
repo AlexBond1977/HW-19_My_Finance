@@ -1,0 +1,42 @@
+.income-list .modal-body {
+    color: #290661;
+}
+
+.income-list .income-btn {
+    font-size: 14px;
+}
+
+.expenses-list .modal-body {
+    color: #290661;
+}
+
+.expenses-list .expenses-btn {
+    font-size: 14px;
+}
+
+.income-create, .income-edit .form-control {
+    color: #290661;
+}
+
+.income-create, .income-edit .form-control:active,
+.income-create, .income-edit .form-control:focus {
+    box-shadow: unset !important;
+}
+
+
+.expenses-create, .expenses-edit .form-control {
+    color: #290661;
+}
+
+.expenses-create, .expenses-edit .form-control:active,
+.expenses-create, .expenses-edit .form-control:focus {
+    box-shadow: unset !important;
+}
+
+table {
+    min-width: 260px;
+}
+
+thead tr th {
+    letter-spacing: 1.33px;
+}
