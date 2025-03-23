@@ -82,14 +82,15 @@
         </div>
 
         <div class="user-panel pt-4 pb-5 px-3 d-flex align-items-center">
-            <button type="button" class="btn border-0" data-html="true" data-bs-container="body"
-                    data-bs-toggle="popover"
-                    data-bs-placement="right" data-bs-trigger="focus">
+            <button type="button" class="btn border-0" id="profile-button" data-bs-toggle="popover" data-bs-placement="right" data-bs-trigger="focus">
                 <img src="../../static/images/icon-user.png" alt="User icon">
             </button>
 
             <div id="popover-body" class="d-none">
-                <a href="#" id="logout-link" class="text-reset text-decoration-none">Logout</a>
+                <div class="popover-content text-center">
+                    <p>Необходимо выйти</p>
+                    <a href="../pages/auth/login.html" id="logout-link" class="text-reset text-decoration-none">Logout</a>
+                </div>
             </div>
 
             <div class="info">
@@ -98,6 +99,7 @@
                 </a>
             </div>
         </div>
+
     </aside>
 
     <div class="content-wrapper w-100 h-100" id="content-layout">
@@ -141,15 +143,16 @@
 
         <div class="chart-container pt-5 d-flex justify-content-between">
             <div class="chart d-flex justify-content-center">
-                <img src="../../static/images/income-pie.png" alt="Круговая диграмма доходов">
+                <img src="../../static/images/income-pie.png" alt="Круговая диаграмма доходов">
             </div>
             <div class="line"></div>
             <div class="chart d-flex justify-content-center">
-                <img src="../../static/images/expenses-pie.png" alt="Круговая диграмма расходов">
+                <img src="../../static/images/expenses-pie.png" alt="Круговая диаграмма расходов">
             </div>
         </div>
     </div>
 </main>
+
 
 <script src="../../scripts/bootstrap.min.js"></script>
 <script src="../../scripts/menu-button.js"></script>
