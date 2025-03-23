@@ -8,6 +8,7 @@
 }
 
 body {
+    height: auto;
     font-family: Roboto, sans-serif;
     font-size: 14px;
     font-weight: 400;
