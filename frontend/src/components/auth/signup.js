@@ -49,15 +49,25 @@ export class Signup {
             });
 
             if (signupResult) {
-                AuthUtils.setAuthInfo(signupResult.tokens.accessToken, signupResult.tokens.refreshToken, {
-                    id: signupResult.user.id,
-                    name: signupResult.user.name,
-                    lastName: signupResult.user.lastName
+                // После успешной регистрации сразу выполняем логинацию
+                const loginResult = await AuthService.logIn({
+                    email: this.emailElement.value,
+                    password: this.passwordElement.value
                 });
 
-                return this.openNewRoute('/');
-            }
+                if (loginResult) {
+                    AuthUtils.setAuthInfo(loginResult.tokens.accessToken, loginResult.tokens.refreshToken, {
+                        id: loginResult.user.id,
+                        name: loginResult.user.name,
+                        lastName: loginResult.user.lastName
+                    });
 
+                    return this.openNewRoute('/');
+                }
+
+                this.commonErrorElement.style.display = 'block';
+            }
+        } else {
             this.commonErrorElement.style.display = 'block';
         }
     }
