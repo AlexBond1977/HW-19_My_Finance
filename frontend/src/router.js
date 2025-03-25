@@ -5,6 +5,7 @@ import {SidebarUtils} from "./utils/sidebar-utils";
 import {PopoverUtils} from "./utils/popover-utils";
 import {AuthUtils} from "./utils/auth-utils";
 import {Logout} from "./components/auth/logout";
+import {Main} from "./components/main";
 
 export class Router {
     constructor() {
@@ -12,14 +13,15 @@ export class Router {
         this.contentPageElement = document.getElementById('content');
         this.userName = null;
 
-        this.initEvents();
-
         this.routes = [
             {
                 route: '/',
                 title: 'Главная',
                 filePathTemplate: '/templates/pages/main.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new Main();
+                }
             },
             {
                 route: '/404',
@@ -113,7 +115,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/finances/edit.html',
                 useLayout: '/templates/layout.html',
             },
-        ]
+        ];
+        this.initEvents();
     }
 
     initEvents() {
@@ -131,21 +134,20 @@ export class Router {
     async clickHandler(e) {
         let element = null;
 
-        if (e.target.nodeName === 'a') {
+        if (e.target.nodeName === 'A') {
             element = e.target;
-        } else if (e.target.parentNode.nodeName === 'a') {
+        } else if (e.target.parentNode.nodeName === 'A') {
             element = e.target.parentNode;
         }
 
         if (element) {
             e.preventDefault();
 
-            const currentRoute = window.location.pathname;
-
             const url = element.href.replace(window.location.origin, '');
-            if (!url || (currentRoute === url.replace('#', '')) || url.startsWith('javascript:void(0)')) {
+            if (!url || url === '/#' || url.startsWith('javascript:void(0)')) {
                 return;
             }
+
             await this.openNewRoute(url);
         }
     }
@@ -161,7 +163,6 @@ export class Router {
 
         const urlRoute = window.location.pathname;
         const newRoute = this.routes.find(item => item.route === urlRoute);
-
 
         if (newRoute) {
             if (newRoute.title) {
