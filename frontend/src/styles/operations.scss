@@ -1,0 +1,36 @@
+.create-btn {
+  transition: all .3s;
+
+  &:hover {
+    background-color: rgba(0, 130, 255, 0.1);
+  }
+}
+
+.filter-btn {
+  width: 100px;
+}
+
+.table > :not(caption) > * > * {
+  padding: 16px 15px;
+}
+
+.operations-tools {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.interval-link:disabled {
+  cursor: not-allowed;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  width: 247px!important;
+}
+
+@media (max-width: 768px) {
+  .filter {
+    overflow-x: scroll;
+  }
+}

@@ -3,6 +3,13 @@ import {AuthService} from "../../services/auth-service";
 import {AuthUtils} from "../../utils/auth-utils";
 
 export class Login {
+    emailInput = null;
+    passwordInput = null;
+    rememberMeCheckbox = null;
+    commonErrorElement = null;
+    validations = null;
+    openNewRoute = null;
+
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
@@ -11,30 +18,33 @@ export class Login {
         }
 
         this.findElements();
-
         this.validations = [
-            {element: this.emailElement, options: {pattern: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/}},
-            {element: this.passwordElement},
+            {element: this.passwordInput},
+            {
+                element: this.emailInput,
+                options: {
+                    pattern: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                }
+            }
         ];
 
         document.getElementById('process-button').addEventListener('click', this.login.bind(this));
     }
 
     findElements() {
-        this.emailElement = document.getElementById('email');
-        this.passwordElement = document.getElementById('password');
-        this.rememberMeElement = document.getElementById('remember-me');
+        this.emailInput = document.getElementById('email');
+        this.passwordInput = document.getElementById('password');
+        this.rememberMeCheckbox = document.getElementById('remember-me');
         this.commonErrorElement = document.getElementById('common-error');
     }
 
     async login() {
         this.commonErrorElement.style.display = 'none';
-
         if (ValidationUtils.validateForm(this.validations)) {
             const loginResult = await AuthService.logIn({
-                email: this.emailElement.value,
-                password: this.passwordElement.value,
-                rememberMe: this.rememberMeElement.checked
+                email: this.emailInput.value,
+                password: this.passwordInput.value,
+                rememberMe: this.rememberMeCheckbox.checked
             });
 
             if (loginResult) {

@@ -1,139 +1,199 @@
+import {CommonUtils} from "./utils/common-utils";
+import {Dashboard} from "./components/dashboard";
+import {FileUtils} from "./utils/file-utils";
 import {Login} from "./components/auth/login";
 import {Signup} from "./components/auth/signup";
-import {CategoriesButtonUtils} from "./utils/categories-button-utils";
-import {SidebarUtils} from "./utils/sidebar-utils";
-import {PopoverUtils} from "./utils/popover-utils";
-import {AuthUtils} from "./utils/auth-utils";
 import {Logout} from "./components/auth/logout";
-import {Main} from "./components/main";
+import {AuthUtils} from "./utils/auth-utils";
+import {Layout} from "./components/layout";
+import {IncomeList} from "./components/income/income-list";
+import {IncomeDelete} from "./components/income/income-delete";
+import {IncomeCreate} from "./components/income/income-create";
+import {IncomeEdit} from "./components/income/income-edit";
+import {ExpenseList} from "./components/expense/expense-list";
+import {ExpenseDelete} from "./components/expense/expense-delete";
+import {ExpenseCreate} from "./components/expense/expense-create";
+import {ExpenseEdit} from "./components/expense/expense-edit";
+import {OperationsList} from "./components/operations/operations-list";
+import {OperationsDelete} from "./components/operations/operations-delete";
+import {OperationsEdit} from "./components/operations/operations-edit";
+import {OperationsCreate} from "./components/operations/operations-create";
 
 export class Router {
+    routes = null;
+    titlePageElement = null;
+    contentPageElement = null;
+
     constructor() {
-        this.titlePageElement = document.getElementById('title');
+        this.titlePageElement = document.getElementById('page-title');
         this.contentPageElement = document.getElementById('content');
-        this.userName = null;
+        this.initEvents();
 
         this.routes = [
             {
                 route: '/',
                 title: 'Главная',
-                filePathTemplate: '/templates/pages/main.html',
+                template: '/templates/pages/dashboard.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    new Main();
-                }
-            },
-            {
-                route: '/404',
-                title: 'Страница не найдена',
-                filePathTemplate: '/templates/pages/404.html',
-                useLayout: false,
+                    new Dashboard(this.openNewRoute.bind(this));
+                },
+                scripts: [
+                    'jquery.min.js',
+                    'moment.js',
+                    'moment-ru-locale.js',
+                    'tempusdominus-bootstrap-4.min.js',
+                    'chart.umd.js'
+                ],
+                styles: [
+                    'all.min.css',
+                    'tempusdominus-bootstrap-4.min.css'
+                ]
             },
             {
                 route: '/login',
                 title: 'Авторизация',
-                filePathTemplate: '/templates/pages/auth/login.html',
+                template: '/templates/pages/auth/login.html',
                 useLayout: false,
                 load: () => {
-                    document.body.classList.add('auth-page');
                     new Login(this.openNewRoute.bind(this));
-                },
-                unload: () => {
-                    document.body.classList.remove('auth-page');
-                },
+                }
             },
             {
-                route: '/signup',
+                route: '/sign-up',
                 title: 'Регистрация',
-                filePathTemplate: '/templates/pages/auth/signup.html',
+                template: '/templates/pages/auth/sign-up.html',
                 useLayout: false,
                 load: () => {
-                    document.body.classList.add('auth-page');
                     new Signup(this.openNewRoute.bind(this));
-                },
-                unload: () => {
-                    document.body.classList.remove('auth-page');
-                },
+                }
             },
             {
                 route: '/logout',
                 load: () => {
                     new Logout(this.openNewRoute.bind(this));
-                },
+                }
             },
             {
                 route: '/income',
                 title: 'Доходы',
-                filePathTemplate: '/templates/pages/income/list.html',
+                template: '/templates/pages/income/list.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new IncomeList(this.openNewRoute.bind(this));
+                }
             },
             {
                 route: '/income/create',
-                title: 'Создание дохода',
-                filePathTemplate: '/templates/pages/income/create.html',
+                title: 'Создание категории доходов',
+                template: '/templates/pages/income/create.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new IncomeCreate(this.openNewRoute.bind(this));
+                }
             },
             {
                 route: '/income/edit',
-                title: 'Редактирование дохода',
-                filePathTemplate: '/templates/pages/income/edit.html',
+                title: 'Редактирование категории доходов',
+                template: '/templates/pages/income/edit.html',
                 useLayout: '/templates/layout.html',
-             },
+                load: () => {
+                    new IncomeEdit(this.openNewRoute.bind(this));
+                }
+            },
             {
-                route: '/expenses',
+                route: '/income/delete',
+                load: () => {
+                    new IncomeDelete(this.openNewRoute.bind(this));
+                }
+            },
+            {
+                route: '/expense',
                 title: 'Расходы',
-                filePathTemplate: '/templates/pages/expenses/list.html',
+                template: '/templates/pages/expense/list.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new ExpenseList(this.openNewRoute.bind(this));
+                }
             },
             {
-                route: '/expenses/create',
-                title: 'Создание расхода',
-                filePathTemplate: '/templates/pages/expenses/create.html',
+                route: '/expense/create',
+                title: 'Создание категории расходов',
+                template: '/templates/pages/expense/create.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new ExpenseCreate(this.openNewRoute.bind(this));
+                }
             },
             {
-                route: '/expenses/edit',
-                title: 'Редактирование расхода',
-                filePathTemplate: '/templates/pages/expenses/edit.html',
+                route: '/expense/edit',
+                title: 'Редактирование категории расходов',
+                template: '/templates/pages/expense/edit.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new ExpenseEdit(this.openNewRoute.bind(this));
+                }
             },
             {
-                route: '/finances',
+                route: '/expense/delete',
+                load: () => {
+                    new ExpenseDelete(this.openNewRoute.bind(this));
+                }
+            },
+            {
+                route: '/operations',
                 title: 'Доходы и расходы',
-                filePathTemplate: '/templates/pages/finances/list.html',
+                template: '/templates/pages/operations/list.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new OperationsList(this.openNewRoute.bind(this));
+                },
+                scripts: [
+                    'jquery.min.js',
+                    'moment.js',
+                    'moment-ru-locale.js',
+                    'tempusdominus-bootstrap-4.min.js'
+                ],
+                styles: [
+                    'all.min.css',
+                    'tempusdominus-bootstrap-4.min.css'
+                ]
             },
             {
-                route: '/finances/create',
-                title: 'Создание дохода/расхода',
-                filePathTemplate: '/templates/pages/finances/create.html',
+                route: '/operations/create',
+                title: 'Доходы и расходы',
+                template: '/templates/pages/operations/create.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new OperationsCreate(this.openNewRoute.bind(this));
+                }
             },
             {
-                route: '/finances/edit',
-                title: 'Редактирование дохода/расхода',
-                filePathTemplate: '/templates/pages/finances/edit.html',
+                route: '/operations/edit',
+                title: 'Доходы и расходы',
+                template: '/templates/pages/operations/edit.html',
                 useLayout: '/templates/layout.html',
+                load: () => {
+                    new OperationsEdit(this.openNewRoute.bind(this));
+                }
             },
+            {
+                route: '/operations/delete',
+                load: () => {
+                    new OperationsDelete(this.openNewRoute.bind(this));
+                }
+            }
         ];
-        this.initEvents();
     }
 
     initEvents() {
-        window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this)); // при первом открытии страницы
-        window.addEventListener('popstate', this.activateRoute.bind(this)); // при переходе со страницы на страницу
+        window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
+        window.addEventListener('popstate', this.activateRoute.bind(this));
         document.addEventListener('click', this.clickHandler.bind(this));
-    }
-
-    async openNewRoute(url) {
-        const currentRoute = window.location.pathname;
-        history.pushState({}, '', url);
-        await this.activateRoute(null, currentRoute);
     }
 
     async clickHandler(e) {
         let element = null;
-
         if (e.target.nodeName === 'A') {
             element = e.target;
         } else if (e.target.parentNode.nodeName === 'A') {
@@ -143,8 +203,10 @@ export class Router {
         if (element) {
             e.preventDefault();
 
+            const currentRoute = window.location.pathname;
             const url = element.href.replace(window.location.origin, '');
-            if (!url || url === '/#' || url.startsWith('javascript:void(0)')) {
+
+            if (!url || (currentRoute === url.replace('#', '')) || url.startsWith('javascript:void(0)')) {
                 return;
             }
 
@@ -152,53 +214,67 @@ export class Router {
         }
     }
 
-    async activateRoute(e, oldRoute = null) {
-        if (oldRoute) {
-            const currentRoute = this.routes.find(item => item.route === oldRoute);
+    async openNewRoute(url) {
+        const currentRoute = window.location.pathname;
+        history.pushState(null, '', url);
+        await this.activateRoute(null, currentRoute);
+    }
 
-            if (currentRoute.unload && typeof currentRoute.unload === 'function') {
-                currentRoute.unload();
+    async activateRoute(e, oldRoute) {
+        if (oldRoute) {
+            const currentRoute = this.routes.find((route) => route.route === oldRoute);
+            if (currentRoute.styles && currentRoute.styles.length > 0) {
+                currentRoute.styles.forEach((style) => {
+                    document.querySelector(`link[href='/css/${style}']`).remove();
+                });
+            }
+
+            if (currentRoute.scripts && currentRoute.scripts.length > 0) {
+                currentRoute.scripts.forEach((script) => {
+                    document.querySelector(`script[src='/js/${script}']`).remove();
+                });
+            }
+
+            if (document.body.getAttribute('style')) {
+                document.body.removeAttribute('style');
             }
         }
 
         const urlRoute = window.location.pathname;
-        const newRoute = this.routes.find(item => item.route === urlRoute);
+        const newRoute = this.routes.find((route) => route.route === urlRoute);
 
         if (newRoute) {
-            if (newRoute.title) {
-                this.titlePageElement.innerText = newRoute.title + ' | Lumincoin FINANCE';
+            if (newRoute.styles && newRoute.styles.length > 0) {
+                newRoute.styles.forEach((style) => {
+                    FileUtils.loadPageStyle('/css/' + style);
+                });
             }
 
-            if (newRoute.filePathTemplate) {
-                let contentBlock = this.contentPageElement;
+            if (newRoute.scripts && newRoute.scripts.length > 0) {
+                for (const script of newRoute.scripts) {
+                    await FileUtils.loadPageScript('/js/' + script);
+                }
+            }
 
+            if (newRoute.title) {
+                this.titlePageElement.innerText = newRoute.title + ' | Lumincoin Finance';
+            }
+
+            if (newRoute.template) {
+                let contentBlock = this.contentPageElement;
                 if (newRoute.useLayout) {
                     this.contentPageElement.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
-                    contentBlock = document.getElementById('content-layout');
+                    contentBlock = document.getElementById("content-layout");
 
-                    this.profileNameElement = document.getElementById('profile-name');
-                    if (!this.userName) {
-                        let userInfo = AuthUtils.getAuthInfo(AuthUtils.userInfoKey);
-                        console.log(userInfo);
-                        if (userInfo) {
-                            userInfo = JSON.parse(userInfo);
-                            if (userInfo.name || userInfo.lastName) {
-                                this.userName = userInfo.name + " " + userInfo.lastName;
-                                console.log(this.userName);
-                            }
-                        }
+                    const profileName = JSON.parse(AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey));
+                    if (profileName) {
+                        document.getElementById('profile-name').innerText = profileName.name + ' ' + profileName.lastName;
                     }
-                    this.profileNameElement.innerText = this.userName;
 
+                    new Layout(this.openNewRoute.bind(this));
                     this.activateMenuItem(newRoute);
-
-                    PopoverUtils.initPopover();
-
-                    SidebarUtils.openMenuHandler();
-                    SidebarUtils.closeMenuHandler();
                 }
-
-                contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
+                contentBlock.innerHTML = await fetch(newRoute.template).then(response => response.text());
             }
 
             if (newRoute.load && typeof newRoute.load === 'function') {
@@ -206,22 +282,35 @@ export class Router {
             }
         } else {
             console.log('No route found');
-            history.pushState({}, '', '/404');
-            await this.activateRoute();
         }
     }
 
     activateMenuItem(route) {
+        const categoryElement = document.getElementById('category');
+        const categoryCollapse = document.getElementById("category-collapse");
         document.querySelectorAll('.sidebar .nav-link').forEach(item => {
             const href = item.getAttribute('href');
-
-            if ((route.route.includes(href) && href !== '/' || (route.route === '/' && href === '/'))) {
-                item.classList.add('active');
+            if ((route.route.includes(href) && href !== '/') || (route.route === '/' && href === '/')) {
+                if (item.classList.contains('sub-category')) {
+                    categoryElement.classList.remove('collapsed');
+                    categoryElement.classList.add('rounded-bottom-0');
+                    categoryElement.getAttribute('aria-expanded', 'true');
+                    categoryCollapse.classList.add('show');
+                    CommonUtils.activateLink(categoryElement);
+                }
+                CommonUtils.activateLink(item);
             } else {
-                item.classList.remove('active');
+                CommonUtils.unactivateLink(item);
             }
+        });
 
-            CategoriesButtonUtils.toggleCategoriesButton(route);
+        categoryElement.addEventListener('click', (e) => {
+            if (e.target.classList.contains('collapsed')) {
+                CommonUtils.unactivateLink(e.target);
+            } else {
+                CommonUtils.activateLink(e.target);
+            }
+            e.target.classList.toggle('rounded-bottom-0');
         });
     }
 }

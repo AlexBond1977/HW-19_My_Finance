@@ -2,6 +2,8 @@ import {AuthUtils} from "../../utils/auth-utils";
 import {AuthService} from "../../services/auth-service";
 
 export class Logout {
+    openNewRoute = null;
+
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
@@ -13,8 +15,8 @@ export class Logout {
     }
 
     async logout() {
-        await AuthService.logOut({
-            refreshToken: AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)
+        await AuthService.logout({
+            refreshToken: AuthUtils.refreshTokenKey
         });
 
         AuthUtils.removeAuthInfo();
