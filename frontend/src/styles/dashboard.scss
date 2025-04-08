@@ -1,0 +1,14 @@
+#income-chart,
+#expense-chart {
+  box-sizing: content-box!important;
+}
+
+.table-sm > :not(caption) > * > * {
+  padding: 5px 8px;
+}
+
+@media screen and (max-width: 1400px) {
+  #income-chart {
+    border-right: 0 !important;
+  }
+}

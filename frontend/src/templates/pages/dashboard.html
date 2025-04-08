@@ -1,0 +1,57 @@
+<div class="dashboard p-md-5 my-5 p-sm-3">
+    <section class="content-header mb-4">
+        <div class="container-fluid">
+            <h1 class="text-primary-emphasis">Главная</h1>
+        </div>
+    </section>
+
+    <section class="content mt-3">
+        <div class="container-fluid">
+            <div class="pt-3 pb-4 d-flex align-items-center filter" role="group">
+                <input type="radio" class="btn-check" name="filter" id="today" autocomplete="off" checked>
+                <label class="btn btn-outline-secondary me-3 filter-btn" for="today">Сегодня</label>
+
+                <input type="radio" class="btn-check" name="filter" id="week" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="week">Неделя</label>
+
+                <input type="radio" class="btn-check" name="filter" id="month" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="month">Месяц</label>
+
+                <input type="radio" class="btn-check" name="filter" id="year" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="year">Год</label>
+
+                <input type="radio" class="btn-check" name="filter" id="all" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="all">Все</label>
+
+                <div class="d-flex align-items-center">
+                    <input type="radio" class="btn-check" name="filter" id="interval" autocomplete="off">
+                    <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="interval">Интервал</label>
+
+                    <span>c</span>
+                    <button class="btn-link border-0 bg-transparent pointer-event link-secondary text-nowrap link-offset-2 ms-3 interval-link"
+                            id="from">Дата
+                    </button>
+                        <input type="text" id="calendar-from" class="visually-hidden z-3">
+                        <span id="calendar-from-error" class="error invalid-feedback text-nowrap">Введите дату </span>
+                    <span class="mx-3">по</span>
+                    <button
+                            class="btn-link text-nowrap border-0 bg-transparent pointer-event link-secondary link-offset-2 interval-link"
+                            id="to">Дата
+                    </button>
+                        <input type="text" id="calendar-to" class="visually-hidden z-3">
+                        <span id="calendar-to-error" class="error invalid-feedback">Введите дату</span>
+                </div>
+            </div>
+            <div class="pt-md-5 d-flex flex-wrap flex-xxl-nowrap align-items-center justify-content-between gap-5 gap-md-0">
+                <div class="text-center w-100 p-md-5 ps-md-0">
+                    <h2 class="text-primary-emphasis fs-3 mb-3 me-md-5">Доходы</h2>
+                    <canvas class="pt-1 pe-md-5 border-end" id="income-chart"></canvas>
+                </div>
+                <div class="text-center w-100 p-md-5 ps-md-0">
+                    <h2 class="text-primary-emphasis fs-3 mb-3 me-md-5">Расходы</h2>
+                    <canvas class="pt-1 me-md-5" id="expense-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

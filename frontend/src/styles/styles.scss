@@ -1,0 +1,20 @@
+@import "bootstrap/scss/bootstrap";
+@import "login";
+@import "layout";
+@import "operations";
+@import "dashboard";
+
+body {
+  font-family: Roboto, sans-serif;
+  .logo {
+    width: 45%;
+
+    img {
+      width: 140%;
+    }
+  }
+
+  .text-small {
+    font-size: 14px;
+  }
+}

@@ -1,8 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
-
+import "./styles/styles.scss";
+import * as bootstrap from 'bootstrap';
 import {Router} from "./router";
-import './styles/adaptive.css'
 
 class App {
     constructor() {

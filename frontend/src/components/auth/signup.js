@@ -1,8 +1,17 @@
 import {ValidationUtils} from "../../utils/validation-utils";
-import {AuthUtils} from "../../utils/auth-utils";
 import {AuthService} from "../../services/auth-service";
+import {AuthUtils} from "../../utils/auth-utils";
 
 export class Signup {
+    nameInput = null;
+    lastNameInput = null;
+    emailInput = null;
+    passwordInput = null;
+    repeatPasswordInput = null;
+    commonErrorElement = null;
+    validations = null;
+    openNewRoute = null;
+
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
@@ -11,48 +20,74 @@ export class Signup {
         }
 
         this.findElements();
-
         this.validations = [
-            {element: this.fullNameElement, options: {pattern: /^([А-ЯЁ][а-яё]+\s){2}([А-ЯЁ][а-яё]+)$/}},
-            {element: this.emailElement, options: {pattern: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/}},
-            {element: this.passwordElement, options: {pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/}},
-            {element: this.passwordRepeatElement, options: {compareTo: this.passwordElement.value}},
+            {
+                element: this.nameInput,
+                options: {
+                    pattern: /^[А-Я][а-я]+\s*$/
+                }
+            },
+            {
+                element: this.lastNameInput,
+                options: {
+                    pattern: /^[А-Я][а-я]+\s*$/
+                }
+            },
+            {
+                element: this.emailInput,
+                options: {
+                    pattern: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                }
+            },
+            {
+                element: this.passwordInput,
+                options: {
+                    pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+                }
+            },
+            {
+                element: this.repeatPasswordInput,
+                options: {
+                    compareTo: this.passwordInput.value,
+                }
+            },
         ];
 
-        document.getElementById('process-button').addEventListener('click', this.signUp.bind(this));
+        document.getElementById('process-button').addEventListener('click', this.signup.bind(this));
     }
 
     findElements() {
-        this.fullNameElement = document.getElementById('full-name');
-        this.emailElement = document.getElementById('email');
-        this.passwordElement = document.getElementById('password');
-        this.passwordRepeatElement = document.getElementById('password-repeat');
+        this.nameInput = document.getElementById('name');
+        this.lastNameInput = document.getElementById('last-name');
+        this.emailInput = document.getElementById('email');
+        this.passwordInput = document.getElementById('password');
+        this.repeatPasswordInput = document.getElementById('repeat-password');
         this.commonErrorElement = document.getElementById('common-error');
     }
 
-    async signUp() {
+    async signup() {
         this.commonErrorElement.style.display = 'none';
 
         for (let i = 0; i < this.validations.length; i++) {
-            if (this.validations[i].element === this.passwordRepeatElement) {
-                this.validations[i].options.compareTo = this.passwordElement.value;
+            if (this.validations[i].element === this.repeatPasswordInput) {
+                this.validations[i].options.compareTo = this.passwordInput.value;
             }
         }
 
         if (ValidationUtils.validateForm(this.validations)) {
             const signupResult = await AuthService.signUp({
-                name: this.fullNameElement.value.split(' ')[0],
-                lastName: this.fullNameElement.value.split(' ')[1],
-                email: this.emailElement.value,
-                password: this.passwordElement.value,
-                passwordRepeat: this.passwordRepeatElement.value
+                name: this.nameInput.value,
+                lastName: this.lastNameInput.value,
+                email: this.emailInput.value,
+                password: this.passwordInput.value,
+                passwordRepeat: this.repeatPasswordInput.value,
             });
 
             if (signupResult) {
-                // После успешной регистрации сразу выполняем логинацию
                 const loginResult = await AuthService.logIn({
-                    email: this.emailElement.value,
-                    password: this.passwordElement.value
+                    email: this.emailInput.value,
+                    password: this.passwordInput.value,
+                    rememberMe: false
                 });
 
                 if (loginResult) {
@@ -64,10 +99,8 @@ export class Signup {
 
                     return this.openNewRoute('/');
                 }
-
-                this.commonErrorElement.style.display = 'block';
             }
-        } else {
+
             this.commonErrorElement.style.display = 'block';
         }
     }

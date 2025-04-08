@@ -1,0 +1,91 @@
+<div class="operations p-md-5 my-5 p-sm-3">
+    <section class="content-header mb-4">
+        <div class="container-fluid">
+            <h1 class="text-primary-emphasis">Доходы и расходы</h1>
+        </div>
+    </section>
+
+    <section class="content mt-3">
+        <div class="container-fluid">
+            <div class="pb-4">
+                <a href="/operations/create?type=income" class="btn btn-success me-2 fw-medium text-small">Создать
+                    доход</a>
+                <a href="/operations/create?type=expense" class="btn btn-danger fw-medium text-small">Создать расход</a>
+            </div>
+            <div class="pt-3 pb-4 d-flex align-items-center filter" role="group">
+                <input type="radio" class="btn-check" name="filter" id="today" autocomplete="off" checked>
+                <label class="btn btn-outline-secondary me-3 filter-btn" for="today">Сегодня</label>
+
+                <input type="radio" class="btn-check" name="filter" id="week" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="week">Неделя</label>
+
+                <input type="radio" class="btn-check" name="filter" id="month" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="month">Месяц</label>
+
+                <input type="radio" class="btn-check" name="filter" id="year" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="year">Год</label>
+
+                <input type="radio" class="btn-check" name="filter" id="all" autocomplete="off">
+                <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="all">Все</label>
+
+                <div class="d-flex align-items-center">
+                    <input type="radio" class="btn-check" name="filter" id="interval" autocomplete="off">
+                    <label class="btn btn-outline-secondary ms-1 me-3 filter-btn" for="interval">Интервал</label>
+
+                    <span>c</span>
+                    <button class="btn-link border-0 bg-transparent pointer-event link-secondary text-nowrap link-offset-2 ms-3 interval-link"
+                            id="from">Дата
+                    </button>
+                    <input type="text" id="calendar-from" class="visually-hidden z-3">
+                    <span id="calendar-from-error" class="error invalid-feedback text-nowrap">Введите дату </span>
+                    <span class="mx-3">по</span>
+                    <button
+                            class="btn-link text-nowrap border-0 bg-transparent pointer-event link-secondary link-offset-2 interval-link"
+                            id="to">Дата
+                    </button>
+                    <input type="text" id="calendar-to" class="visually-hidden z-3">
+                    <span id="calendar-to-error" class="error invalid-feedback">Введите дату</span>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table mt-3 border-top text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-primary-emphasis" style="width: 135px;">№ операции</th>
+                        <th scope="col" class="text-primary-emphasis">Тип</th>
+                        <th scope="col" class="text-primary-emphasis">Категория</th>
+                        <th scope="col" class="text-primary-emphasis">Сумма</th>
+                        <th scope="col" class="text-primary-emphasis">Дата</th>
+                        <th scope="col" class="text-primary-emphasis">Комментарий</th>
+                        <th scope="col" class="text-primary-emphasis"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="records"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <div class="popup w-100 h-100 position-fixed top-0 start-0 bg-dark bg-opacity-50 d-flex align-items-center d-none"
+         id="delete-popup">
+        <div class="container-fluid">
+            <div class="row h-100 justify-content-center">
+                <div class="w-auto">
+                    <div class="card p-4 h-100 border">
+                        <div class="card-body p-md-3 p-0">
+                            <p class="text-primary-emphasis text-center fw-medium fs-5 lh-sm mb-3">
+                                Вы действительно хотите удалить категорию? <br>
+                                Связанные доходы будут удалены навсегда.
+                            </p>
+                            <div class="text-center">
+                                <a href="" class="btn btn-success me-2 mt-1 fw-medium text-small" id="confirm-delete">Да,
+                                    удалить</a>
+                                <a href="" class="btn btn-danger fw-medium text-small mt-1" id="cancel-delete">Не
+                                    удалять</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

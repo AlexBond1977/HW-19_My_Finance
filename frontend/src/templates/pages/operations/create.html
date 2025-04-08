@@ -1,0 +1,48 @@
+<div class="income p-md-5 my-5 p-sm-3">
+    <section class="content-header mb-4">
+        <div class="container-fluid">
+            <h1 class="text-primary-emphasis">Создание дохода/расхода</h1>
+        </div>
+    </section>
+
+    <section class="content mt-3">
+        <div class="container-fluid">
+            <div class="form-group row mb-3">
+                <div class="col-xl-4 col-md-7 col-sm-9">
+                    <select class="form-control" id="typeSelect">
+                        <option value="" disabled selected>Тип...</option>
+                        <option value="income">Доход</option>
+                        <option value="expense">Расход</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-xl-4 col-md-7 col-sm-9">
+                    <select class="form-control" id="categorySelect"></select>
+                    <span id="categorySelect-error" class="error invalid-feedback">Выберите категорию</span>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-xl-4 col-md-7 col-sm-9">
+                    <input type="number" class="form-control" id="amountInput" placeholder="Сумма в $...">
+                    <span id="amountInput-error" class="error invalid-feedback">Заполните поле</span>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-xl-4 col-md-7 col-sm-9">
+                    <input type="text" class="form-control" placeholder="Дата..." id="dateInput" onfocus="(this.type='date')">
+                    <span id="dateInput-error" class="error invalid-feedback">Выберите дату</span>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-xl-4 col-md-7 col-sm-9">
+                    <input type="text" class="form-control" id="commentInput" placeholder="Комментарий...">
+                </div>
+            </div>
+            <div class="form-group mt-1">
+                <button class="btn btn-success me-2" id="saveButton" type="button">Сохранить</button>
+                <a href="/operations" class="btn btn-danger" id="cancelButton" type="button">Отмена</a>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,47 @@
+.sidebar,
+.profile-element {
+  width: 219px;
+}
+
+.category:not(.collapsed) svg {
+  transform: rotate(90deg);
+}
+
+.offcanvas-backdrop {
+  background-color: transparent;
+}
+
+.navbar-expand-md .offcanvas {
+  height: 100vh !important;
+}
+
+.collapse:not(.show) .nav-item {
+  border: none !important;
+}
+
+.nav-link:hover {
+  background-color: #0d6efd;
+  color: #fff !important;
+  & svg path {
+    fill: #fff !important;
+  }
+}
+
+.nav-link:focus-visible {
+  box-shadow: none;
+}
+
+.navbar-expand-md .offcanvas {
+  height: 100% !important;
+}
+
+#balance {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 424px) {
+  .sidebar,
+  .profile-element {
+    width: 100%;
+  }
+}
