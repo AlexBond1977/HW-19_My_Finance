@@ -1,7 +1,16 @@
+// Импорт зависимостей:
+// - `HttpUtils` - утилита для выполнения HTTP-запросов. Она используется для общения с API.
+// -`moment` - библиотека для работы с датами, которая позволяет удобно форматировать и манипулировать датами.
 import {HttpUtils} from "../utils/http-utils";
 import moment from "moment/moment";
 
+// Класс `OperationsService` предназначен для обработки запросов, связанных с операциями,
+// такими как получение списка операций, создание, обновление и удаление отдельных операций.
 export class OperationsService {
+    // Метод `getOperations` предназначен для получения операций. Он принимает объект `params`,
+    // который может содержать параметры запроса (например, период и даты).
+    // Создается объект `returnObject`, который будет возвращен,
+    // чтобы инкапсулировать результаты выполнения метода.
     static async getOperations(params) {
         const returnObject = {
             error: false,
@@ -9,6 +18,11 @@ export class OperationsService {
             operations: null
         }
 
+        // Если переданы параметры `dateFrom` и `dateTo`, они обрабатываются:
+        // Строки дат разбиваются по точкам.
+        // Создаются объекты `Date`, которые передаются библиотеке `moment` для
+        // форматирования в стандартный вид (YYYY-MM-DD).
+        // Формируется строка `query`, которая будет добавлена к запросу.
         let query = null;
         if (params.dateFrom && params.dateTo) {
             let dateFrom = params.dateFrom.split('.');
@@ -34,6 +48,8 @@ export class OperationsService {
         return returnObject;
     }
 
+    // Метод для получения информации о конкретной операции по её ID.
+    // Инициализируется объект `returnObject`.
     static async getOperation(id) {
         const returnObject = {
             error: false,
@@ -55,6 +71,7 @@ export class OperationsService {
         return returnObject;
     }
 
+    // Метод для создания новой операции. Инициализируется объект `returnObject`.
     static async createOperation(data) {
         const returnObject = {
             error: false,
@@ -74,6 +91,7 @@ export class OperationsService {
         return returnObject;
     }
 
+    // Метод обновляет существующую операцию по её ID. Инициализируется объект `returnObject`.
     static async updateOperation(id, data) {
         const returnObject = {
             error: false,
@@ -93,8 +111,8 @@ export class OperationsService {
         return returnObject;
     }
 
+    // Метод для удаления операции по её ID. Инициализируется объект `returnObject`.
     static async deleteOperation(id) {
-
         const returnObject = {
             error: false,
             redirect: null

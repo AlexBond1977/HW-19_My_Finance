@@ -1,9 +1,24 @@
+// Импорт зависимостей:
+// - **`AuthUtils`**: Утилита для работы с аутентификацией пользователя.
+// - **`UrlUtils`**: Утилита для извлечения параметров из URL.
+// - **`IncomeService`**: Сервис для работы с категориями доходов.
+// - **`ValidationUtils`**: Утилита для валидации данных, вводимых пользователем.
+// - **`ExpenseService`**: Сервис для управления категориями расходов.
+// - **`OperationsService`**: Сервис для манипуляции с операциями (доходами/расходами).
 import moment from "moment";
 import {ValidationUtils} from "../../utils/validation-utils";
 import {OperationsService} from "../../services/operations-service";
 import {AuthUtils} from "../../utils/auth-utils";
 import config from "../../config/config";
 
+// Класс `OperationsList` управляет отображением списка операций и их фильтрацией.
+// Внутри класса объявлены следующие свойства:
+// - **`calendarFromElement`** и **`calendarToElement`**: Элементы для выбора начальной и конечной дат для фильтрации операций.
+// - **`linkFromElement`** и **`linkToElement`**: Элементы для открытия календарей.
+// - **`validations`**: Массив, содержащий элементы, которые подлежат валидации.
+// - **`popupElement`**: Элемент для попапа подтверждения удаления операции.
+// - **`confirmBtn`** и **`cancelBtn`**: Кнопки подтверждения и отмены удаления.
+// - **`openNewRoute`**: Функция для перенаправления пользователя.
 export class OperationsList {
     calendarFromElement = null;
     linkFromElement = null;
@@ -15,6 +30,14 @@ export class OperationsList {
     cancelBtn = null;
     openNewRoute = null;
 
+    // Конструктор принимает функцию `openNewRoute`, используемую для перенаправления.
+    // - Проверка наличия токена доступа: если токен отсутствует, происходит перенаправление на страницу логина.
+    // - Вызывается метод `findElements()` для инициализации ссылок на ключевые элементы интерфейса.
+    // - Вызывается метод `initCalendar()` для инициализации календарй.
+    // - Создается массив `validations`, включая элементы для начальной и конечной дат.
+    // - Устанавливается обработчик события для кнопки отмены. При нажатии она скрывает модальное окно.
+    // - Вызывается метод `getOperations()` с параметром, задающим период (по умолчанию "сегодня").
+    // - Вызывается метод `initFilter()` для инициализации фильтрации.
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
@@ -37,6 +60,7 @@ export class OperationsList {
         this.initFilter();
     }
 
+    // Метод находит и инициализирует элементы из DOM, которые будут использоваться в интерфейсе.
     findElements() {
         this.calendarFromElement = document.getElementById("calendar-from");
         this.linkFromElement = document.getElementById('from');
@@ -47,6 +71,11 @@ export class OperationsList {
         this.linkToElement = document.getElementById('to');
     }
 
+    // Этот метод инициализирует календари для выбора дат с помощью jQuery datetimepicker.
+    // Устанавливаются параметры: формат даты, локаль (русский), отключается использование
+    // текущей даты по умолчанию. Добавляются обработчики событий на изменение значений в календарях.
+    // Если выбранная дата изменяется, обновляются элементы интерфейса и перебрасываются операции,
+    // если форма валидации успешна.
     initCalendar() {
         $(this.calendarFromElement).datetimepicker({
             format: 'L',
@@ -95,6 +124,11 @@ export class OperationsList {
         });
     }
 
+    // Метод инициализирует фильтрацию операций.
+    // Значения для выбора дат из календарей отключаются по умолчанию.
+    // Устанавливается обработчик событий для всех радиокнопок фильтра. При изменении фильтра:
+    // Если выбран фильтр по интервалу, календарные поля становятся доступными, и выполняется проверка валидации форм.
+    // Если фильтр не по интервалу, скрываются открытые календари, поля ввода для дат отключаются и обновляются операции.
     initFilter() {
         this.linkFromElement.disabled = true;
         this.linkToElement.disabled = true;
@@ -124,6 +158,9 @@ export class OperationsList {
         });
     }
 
+    // Этот метод отправляет запрос на сервер для получения операций, основываясь на заданных параметрах.
+    // Если ответ содержит ошибку, пользователю отображается сообщение с ошибкой.
+    // В случае успешного получения данных вызывается метод `showOperations`, показывающий операции в интерфейсе.
     async getOperations(params) {
         const response = await OperationsService.getOperations(params);
         if (response.error) {
@@ -134,6 +171,9 @@ export class OperationsList {
         this.showOperations(response.operations);
     }
 
+    // Этот метод отвечает за отображение списка операций в таблице.
+    // Для каждой операции создается строка таблицы с данными о типе операции, категории, сумме, дате и комментариях.
+    // Создаются кнопки для редактирования и удаления операций, связывая их с соответствующими обработчиками событий.
     showOperations(operations) {
         const table = document.getElementById('records');
         table.innerHTML = "";
@@ -198,6 +238,8 @@ export class OperationsList {
         }
     }
 
+    // Метод устанавливает атрибут `href` кнопки подтверждения удаления,
+    // чтобы указать URL для запроса на удаление выбранной операции.
     deleteOperation(id) {
         this.confirmBtn.href = '/operations/delete?id=' + id;
     }
